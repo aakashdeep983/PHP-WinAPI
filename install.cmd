@@ -1,1 +1,1 @@
-regsvr32.exe dynwrapx.dll
+regsvr32.exe winapi/dynwrapx.dll

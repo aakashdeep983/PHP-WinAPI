@@ -1,5 +1,4 @@
 <?php
-$com = new COM("DynamicWrapperX");
-$com->Register("KERNEL32.DLL", "Beep", "i=ll", "f=s", "r=l");
-$com->Beep(5000, 1000);
-?>
+require_once 'WinAPI/Win32api.php';
+$win32api = new Win32api();
+$win32api->beep(1000, 500);

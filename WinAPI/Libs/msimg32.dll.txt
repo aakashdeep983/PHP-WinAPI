@@ -1,0 +1,4 @@
+function AlphaBlend; external msimg32 name 'AlphaBlend';
+function AlphaDIBBlend; external msimg32 name 'AlphaDIBBlend';
+function GradientFill; external msimg32 name 'GradientFill';
+function TransparentBlt; external msimg32 name 'TransparentBlt';
