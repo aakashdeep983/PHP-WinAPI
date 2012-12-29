@@ -1,0 +1,10 @@
+
+Fatal error: Uncaught exception 'com_exception' with message 'Error [0x80070057] Параметр задан неверно.
+' in D:\DEV\Projects\PHP\win32api\WinAPI\Win32api.php:69
+Stack trace:
+#0 [internal function]: com->Register('advapi32.dll', 'FreeSid', 'i=P', 'r=P')
+#1 D:\DEV\Projects\PHP\win32api\WinAPI\Win32api.php(69): call_user_func_array(Array, Array)
+#2 D:\DEV\Projects\PHP\win32api\WinAPI\Win32api.php(28): Win32api->register('advapi32.dll', 'FreeSid', 'FreeSid', 'P', 'P')
+#3 D:\DEV\Projects\PHP\win32api\test.php(3): Win32api->__construct()
+#4 {main}
+  thrown in D:\DEV\Projects\PHP\win32api\WinAPI\Win32api.php on line 69

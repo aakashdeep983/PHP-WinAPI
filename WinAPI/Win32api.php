@@ -1,26 +1,27 @@
 <?php
 
+namespace WinAPI;
+
+use WinAPI\Patterns\SingletonTrait;
+
 class Win32api
 {
+    use SingletonTrait;
     /**
-     * @var COM
+     * @var \COM
      */
     protected $comObject;
+    /**
+     * @var array
+     */
+    protected $aliases = array();
 
-    public function __construct()
+    final protected function __construct()
     {
-        spl_autoload_register(function ($className) {
-            include_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . str_replace('\\',
-                                                                                                  DIRECTORY_SEPARATOR,
-                                                                                                  $className) . '.php';
-        });
-
-        $this->comObject = new COM('DynamicWrapperX');
-
-        foreach (glob(__DIR__ . DIRECTORY_SEPARATOR . 'Libs/*') as $fileName) {
-            foreach (include_once($fileName) as $function => $arguments) {
-                $this->register(basename(str_replace('.php', '', $fileName)), $function, $arguments);
-            }
+        $this->comObject = new \COM('DynamicWrapperX');
+        foreach (include_once(__DIR__ . '/Libs.php') as $alias => $parameters) {
+            $fileName = $parameters['library'];
+            $this->register($fileName, $alias, $parameters['name'], $parameters['arguments'], $parameters['return']);
         }
     }
 
@@ -32,29 +33,36 @@ class Win32api
      */
     public function __call($method, $arguments)
     {
+        if( isset($this->aliases[$method])){
+            $method = $this->aliases[$method];
+        }
         return call_user_func_array(array($this->comObject, $method), $arguments);
     }
 
     /**
      * @param string $dllFileName
-     * @param string $functionName
-     * @param array  $usedTypes
+     * @param string $alias
+     * @param string $name
+     * @param array  $arguments
+     * @param array  $result
      *
      * @return mixed
      */
-    public function register($dllFileName, $functionName, array $usedTypes = array())
+    public function register($dllFileName, $alias, $name, $arguments, $return)
     {
-        $returnType = array_pop($usedTypes);
-        return call_user_func_array(array(
-                                        $this->comObject,
-                                        'Register'
-                                    ),
-                                    array(
-                                        $dllFileName,
-                                        $functionName,
-                                        'i=' . implode('', $usedTypes),
-                                        'r=' . $returnType
-                                    ));
+        $this->aliases[$alias] = $name;
+        return call_user_func_array(
+            array(
+                 $this->comObject,
+                 'Register'
+            ),
+            array(
+                 $dllFileName,
+                 $name,
+                 'i=' . $arguments,
+                 'r=' . $return
+            )
+        );
     }
 }
 
