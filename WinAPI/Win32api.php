@@ -44,7 +44,7 @@ class Win32api
      * @param string $alias
      * @param string $name
      * @param array  $arguments
-     * @param array  $result
+     * @param array  $return
      *
      * @return mixed
      */

@@ -2,7 +2,7 @@
 
 namespace WinAPI;
 
-use Win32api;
+use WinAPI\Win32api;
 
 class Application
 {
