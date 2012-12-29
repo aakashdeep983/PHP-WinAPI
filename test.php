@@ -9,4 +9,4 @@ spl_autoload_register(
     }
 );
 
-WinAPI\Win32api::getInstance()->beep(1000, 500);
+$application = new WinAPI\Application();
